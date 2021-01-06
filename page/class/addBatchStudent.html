@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>批量添加学生</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">班级编号</label>
+        <div class="layui-input-block" >
+            <input id="cno" type="text" name="cno" lay-verify="required" lay-reqtext="班号不能为空" value="1720853" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">批量添加模板</label>
+        <div class="layui-input-block" >
+            <a href="#" style="line-height: 36px;color: darkblue"><i class="layui-icon layui-icon-edit"></i>批量添加学生信息模板.xls</a>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">批量文件上传</label>
+        <div class="layui-input-block" >
+            <input id="file" type="file" name="file" class="layui-upload-button"><br/>
+            <tip>只能上传xls/xlsx文件，且不超过10MB;一次只允许上传一个文件。</tip>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">批量添加学生</button>
+            <button id="reset" class="layui-btn layui-btn-primary" type="reset" >取消</button>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../../js/lay-config.js"></script>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        $("#reset").click(function () {
+            $("#cno").val("");
+            $("#major").val("");
+            $("#joinDate").val("");
+            $("#leaveDate").val("");
+            $("#classNum").val("");
+            $("#classTeacher").val("");
+            $("#telephone").val("");
+            $("#instructor").val("");
+            $("#instructorTel").val("");
+            $("#remark").val("");
+            form.render();
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            }, function () {
+
+                // 关闭弹出层
+                layer.close(index);
+
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(iframeIndex);
+
+            });
+
+            return false;
+        });
+
+    });
+
+
+    // 年月日选择器（加入时间）
+    layui.use('laydate',function () {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#joinDate',
+            trigger: 'click'
+        });
+
+        laydate.render({
+            elem: '#leaveDate',
+            trigger: 'click'
+        });
+    })
+
+
+
+</script>
+</body>
+</html>
